@@ -23,3 +23,6 @@ if play_again == "yes":
         elif guess > number:
             print("Too high, try again.")
     print("Congratulations! You guessed the number.")
+
+
+test propojeni s githubem
