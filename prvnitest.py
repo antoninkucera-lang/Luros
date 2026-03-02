@@ -25,4 +25,3 @@ if play_again == "yes":
     print("Congratulations! You guessed the number.")
 
 
-test propojeni s githubem
