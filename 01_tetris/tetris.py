@@ -19,10 +19,10 @@ pygame.display.set_caption("Tetris test")
 #rizeni casu
 hodiny = pygame.time.Clock()
 
-#mřížka
 def mrizka():
-    for i in range(sloupce):
-        for j in range(radky):
+    for i in range(sloupce):        # prochází každý sloupec
+        for j in range(radky):      # prochází každý řádek
+            # nakreslí obrys čtverečku na pozici i, j
             pygame.draw.rect(okno, (255, 255, 255), (i * Velikost_bloku, j * Velikost_bloku, Velikost_bloku, Velikost_bloku), 1)
 
 #hlavní smyčka
