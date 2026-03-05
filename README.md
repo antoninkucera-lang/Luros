@@ -1,20 +1,5 @@
-TETRIS
+# Moje projekty
 
-Zkouším udělat Tetris pomocí knihovny Pygame
-Co to dělá:
-Zatím se otevře okno a je tam mřížka postupně přidávám další věci.
-Co budu přidávat
-
- padající bloky
- pohyb
- skóre
-
-Jak to spustit
-Musíš mít nainstalovaný Python a Pygame.
-Pygame nainstaluješ takhle:
-pip install pygame
-A pak spustíš:
-python tetris.py
-Poznámky:
-
-S projektem mi pomáhá Claude Ai
+| # | Název projektu | Datum zahájení |
+|---|---------------|----------------|
+| 01 | Tetris | 05.03.2026 |
