@@ -23,3 +23,11 @@ Plánuji přidat:
 **Co jsem zatím naprogramoval:**
 - hlavní smyčka která běží pořád dokola a překresluje obrazovku 60x za sekundu
 - funkce `mrizka()` která pomocí cyklu vykreslí mřížku ze čtverečků
+
+## Jak spustit program
+
+1. Nainstaluj knihovnu pygame:
+   pip install pygame
+2. Spusť soubor tetris.py:
+   python tetris.py
+3. Hru zavřeš klávesou Alt+F4 nebo křížkem v rohu okna.
