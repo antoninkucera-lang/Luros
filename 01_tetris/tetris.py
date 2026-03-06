@@ -2,9 +2,9 @@ import pygame
 import sys 
 
 #nastavení velikosti bloku, sloupců a řádků
-Velikost_bloku = 30
+Velikost_bloku = 40
 sloupce = 10
-radky = 20
+radky = 15
 
 sirka = sloupce * Velikost_bloku
 vyska = radky * Velikost_bloku
