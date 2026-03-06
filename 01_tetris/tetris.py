@@ -37,10 +37,10 @@ def mrizka():
 
 def nakresli_blok(x, y):
     # převede pozici na mřížce na pixely a nakreslí čtvereček
-    pygame.draw.rect(okno, (0, 255, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
+    pygame.draw.rect(okno, (0, 0, 255), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
 def nakresli_dopadle():
     for (x, y) in dopadle_bloky:   # prochází všechny dopadlé bloky
-        pygame.draw.rect(okno, (255, 0, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
+        pygame.draw.rect(okno, (0, 0, 255), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
 
 #hlavní smyčka
 while True:
@@ -60,14 +60,14 @@ while True:
   
     ted = pygame.time.get_ticks()
     if ted - cas_posledniho_padu > rychlost_padu:
-        if blok_y + 1 < radky:
+        if blok_y + 1 < radky and (blok_x, blok_y + 1) not in dopadle_bloky:
             blok_y += 1
         else:
             dopadle_bloky.append((blok_x, blok_y))
             blok_y = 0
             blok_x = 5
         cas_posledniho_padu = ted
-        
+
     okno.fill((0, 0, 0))
     mrizka()
     nakresli_blok(blok_x, blok_y)
