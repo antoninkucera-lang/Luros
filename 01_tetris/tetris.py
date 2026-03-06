@@ -23,6 +23,9 @@ hodiny = pygame.time.Clock()
 blok_x = 5  # sloupec (uprostřed)
 blok_y = 0  # řádek (nahoře)
 
+dopadle_bloky = []  # seznam pozic dopadlých bloků
+
+
 cas_posledniho_padu = pygame.time.get_ticks()
 rychlost_padu = 500  # blok spadne o jedno pole každých 500ms
 
@@ -35,6 +38,9 @@ def mrizka():
 def nakresli_blok(x, y):
     # převede pozici na mřížce na pixely a nakreslí čtvereček
     pygame.draw.rect(okno, (0, 255, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
+def nakresli_dopadle():
+    for (x, y) in dopadle_bloky:   # prochází všechny dopadlé bloky
+        pygame.draw.rect(okno, (255, 0, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
 
 #hlavní smyčka
 while True:
@@ -42,6 +48,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                blok_x -= 1
+            if event.key == pygame.K_RIGHT:
+                blok_x += 1
+            if event.key == pygame.K_DOWN:
+                blok_y += 1
 
     #vyplnění pozadí
   
@@ -49,11 +62,16 @@ while True:
     if ted - cas_posledniho_padu > rychlost_padu:
         if blok_y + 1 < radky:
             blok_y += 1
+        else:
+            dopadle_bloky.append((blok_x, blok_y))
+            blok_y = 0
+            blok_x = 5
         cas_posledniho_padu = ted
-
+        
     okno.fill((0, 0, 0))
     mrizka()
     nakresli_blok(blok_x, blok_y)
+    nakresli_dopadle()
     pygame.display.flip()
     hodiny.tick(60)
 
