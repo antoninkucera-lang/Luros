@@ -39,12 +39,12 @@ def mrizka():
 # funkce nakreslí aktuálně padající blok
 def nakresli_blok(x, y):
     # převede pozici na mřížce na pixely a nakreslí čtvereček
-    pygame.draw.rect(okno, (0, 0, 255), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
+    pygame.draw.rect(okno, (0, 255, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
 
 # funkce nakreslí všechny dopadlé bloky
 def nakresli_dopadle():
     for (x, y) in dopadle_bloky:   # prochází všechny dopadlé bloky
-        pygame.draw.rect(okno, (0, 0, 255), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
+        pygame.draw.rect(okno, (0, 255, 0), (x * Velikost_bloku, y * Velikost_bloku, Velikost_bloku, Velikost_bloku))
 
 # hlavní smyčka
 while True:
