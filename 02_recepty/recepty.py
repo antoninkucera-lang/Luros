@@ -1,6 +1,7 @@
 import requests
 import os
 from dotenv import load_dotenv
+import customtkinter as ctk
 
 # Načtení API klíče z .env souboru
 load_dotenv()
@@ -41,7 +42,15 @@ def vypis_recepty(recepty):
         print(f"Chybějící ingredience: {recept['missedIngredientCount']}")
         print("---")
 
-# Hlavní část programu
-ingredience = input("Zadej ingredience (odděl čárkou): ")
-recepty = hledej_recepty(ingredience)
-vypis_recepty(recepty)
+
+# vytvoření hlavního okna
+okno_app = ctk.CTk()
+okno_app.title("Vyhledávač receptů")
+okno_app.geometry("600x700")
+
+# textové pole pro zadání ingrediencí
+pole = ctk.CTkEntry(okno_app, width=400, placeholder_text="Zadej ingredience (odděl čárkou)")
+pole.pack(pady=20)
+
+# spuštění okna
+okno_app.mainloop()
