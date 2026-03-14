@@ -22,6 +22,21 @@ def hledej_recepty(ingredience):
         "number": 5,
         "apiKey": API_KEY
     }
+    try:
+        # Odeslání dotazu na API
+        odpoved = requests.get(BASE_URL, params=params)
+        if odpoved.status_code != 200:
+            return []
+        # Vrácení odpovědi jako Python slovník
+        return odpoved.json()
+    except requests.exceptions.ConnectionError:
+        # Chyba při výpadku internetu
+        vysledky.insert("end", "Chyba: Nejsi připojen k internetu.\n")
+        return []
+    except Exception as e:
+        # Zachycení jakékoliv jiné chyby
+        vysledky.insert("end", f"Neočekávaná chyba: {e}\n")
+        return []
     # Odeslání dotazu na API
     odpoved = requests.get(BASE_URL, params=params)
     if odpoved.status_code != 200:
