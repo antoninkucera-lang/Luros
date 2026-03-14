@@ -42,7 +42,6 @@ def vypis_recepty(recepty):
         print(f"Chybějící ingredience: {recept['missedIngredientCount']}")
         print("---")
 
-
 # vytvoření hlavního okna
 okno_app = ctk.CTk()
 okno_app.title("Vyhledávač receptů")
@@ -51,6 +50,25 @@ okno_app.geometry("600x700")
 # textové pole pro zadání ingrediencí
 pole = ctk.CTkEntry(okno_app, width=400, placeholder_text="Zadej ingredience (odděl čárkou)")
 pole.pack(pady=20)
+
+# textová oblast pro zobrazení výsledků
+vysledky = ctk.CTkTextbox(okno_app, width=500, height=400)
+vysledky.pack(pady=10)
+
+# funkce se spustí po kliknutí na tlačítko
+def po_kliknuti():
+    ingredience = pole.get()
+    recepty = hledej_recepty(ingredience)
+    vysledky.delete("1.0", "end")
+    for recept in recepty:
+        vysledky.insert("end", f"{recept['title']}\n")
+        vysledky.insert("end", f"Použité ingredience: {recept['usedIngredientCount']}\n")
+        vysledky.insert("end", f"Chybějící ingredience: {recept['missedIngredientCount']}\n")
+        vysledky.insert("end", "---\n")
+
+# tlačítko pro spuštění hledání
+tlacitko = ctk.CTkButton(okno_app, text="Hledat", command=po_kliknuti)
+tlacitko.pack(pady=10)
 
 # spuštění okna
 okno_app.mainloop()
