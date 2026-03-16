@@ -37,25 +37,6 @@ def hledej_recepty(ingredience):
         # Zachycení jakékoliv jiné chyby
         vysledky.insert("end", f"Neočekávaná chyba: {e}\n")
         return []
-    # Odeslání dotazu na API
-    odpoved = requests.get(BASE_URL, params=params)
-    if odpoved.status_code != 200:
-        print(f"Chyba API: {odpoved.status_code} - {odpoved.text}")
-        return []
-    # Vrácení odpovědi jako Python slovník
-    return odpoved.json()
-
-# Funkce projde všechny recepty a vypíše je do terminálu
-def vypis_recepty(recepty):
-    if not recepty:
-        print("Žádné recepty nenalezeny.")
-        return
-    # Smyčka projde každý recept v seznamu
-    for recept in recepty:
-        print(recept["title"])
-        print(f"Použité ingredience: {recept['usedIngredientCount']}")
-        print(f"Chybějící ingredience: {recept['missedIngredientCount']}")
-        print("---")
 
 # vytvoření hlavního okna
 okno_app = ctk.CTk()
