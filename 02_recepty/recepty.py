@@ -54,8 +54,13 @@ vysledky.pack(pady=10)
 # funkce se spustí po kliknutí na tlačítko
 def po_kliknuti():
     ingredience = pole.get()
+    # kontrola jestli uživatel zadal ingredience
+    if not ingredience:
+        vysledky.insert("end", "Zadej prosím ingredience!\n")
+        return
     recepty = hledej_recepty(ingredience)
     vysledky.delete("1.0", "end")
+    # smyčka projde každý recept a vypíše ho
     for recept in recepty:
         vysledky.insert("end", f"{recept['title']}\n")
         vysledky.insert("end", f"Použité ingredience: {recept['usedIngredientCount']}\n")
