@@ -83,7 +83,7 @@ pole = ctk.CTkEntry(okno_app, width=400, placeholder_text="Zadej ingredience (od
 pole.pack(pady=20)
 
 # label pro zobrazení počasí
-pocasi_label = ctk.CTkLabel(okno_app, text=ziskej_pocasi,("Trinec"))
+pocasi_label = ctk.CTkLabel(okno_app, text=ziskej_pocasi("Trinec"))
 pocasi_label.pack(pady=5)
 
 # textová oblast pro zobrazení výsledků - nelze editovat
