@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import customtkinter as ctk
-import webbrowser 
+import webbrowser
 
 # Načtení API klíče z .env souboru
 load_dotenv()
@@ -18,10 +18,10 @@ BASE_URL = "https://api.spoonacular.com/recipes/findByIngredients"
 
 # Funkce pošle dotaz na API a vrátí seznam receptů
 def hledej_recepty(ingredience):
-    # Parametry dotazu - ingredience, počet výsledků a API klíč
+    # Parametry dotazu - ingredience, počet výsledků ze slideru a API klíč
     params = {
         "ingredients": ingredience,
-        "number": 5,
+        "number": int(slider.get()),
         "apiKey": API_KEY
     }
     try:
@@ -54,7 +54,8 @@ def ziskej_odkaz(recept_id):
         return odpoved.json().get("sourceUrl")
     except:
         return None
-    
+
+# Funkce získá aktuální počasí pro dané město
 def ziskej_pocasi(mesto):
     url = "http://api.weatherstack.com/current"
     params = {
@@ -62,7 +63,6 @@ def ziskej_pocasi(mesto):
         "query": mesto,
         "units": "m"
     }
-    
     try:
         odpoved = requests.get(url, params=params)
         data = odpoved.json()
@@ -70,8 +70,7 @@ def ziskej_pocasi(mesto):
         popis = data["current"]["weather_descriptions"][0]
         return f"{mesto}: {popis}, {teplota}°C"
     except:
-        return "Počasí nedostupné" 
-        
+        return "Počasí nedostupné"
 
 # vytvoření hlavního okna
 okno_app = ctk.CTk()
@@ -85,6 +84,20 @@ pole.pack(pady=20)
 # label pro zobrazení počasí
 pocasi_label = ctk.CTkLabel(okno_app, text=ziskej_pocasi("Trinec"))
 pocasi_label.pack(pady=5)
+
+# slider pro nastavení počtu receptů
+pocet_label = ctk.CTkLabel(okno_app, text="Počet receptů: 5")
+pocet_label.pack()
+
+slider = ctk.CTkSlider(okno_app, from_=1, to=15, number_of_steps=14)
+slider.set(5)
+slider.pack(pady=5)
+
+# funkce aktualizuje label při pohybu sliderem
+def aktualizuj_label(hodnota):
+    pocet_label.configure(text=f"Počet receptů: {int(hodnota)}")
+
+slider.configure(command=aktualizuj_label)
 
 # textová oblast pro zobrazení výsledků - nelze editovat
 vysledky = ctk.CTkTextbox(okno_app, width=500, height=400, state="disabled")
@@ -103,10 +116,12 @@ def po_kliknuti():
         return
     # zavolání API a výpis výsledků
     recepty = hledej_recepty(ingredience)
+    # smyčka projde každý recept a vypíše ho
     for recept in recepty:
         vysledky.insert("end", f"{recept['title']}\n")
         vysledky.insert("end", f"Použité ingredience: {recept['usedIngredientCount']}\n")
         vysledky.insert("end", f"Chybějící ingredience: {recept['missedIngredientCount']}\n")
+        # získání a zobrazení odkazu na recept
         odkaz = ziskej_odkaz(recept['id'])
         if odkaz:
             vysledky.insert("end", f"Odkaz: {odkaz}\n")
