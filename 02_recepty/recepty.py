@@ -72,7 +72,18 @@ def ziskej_pocasi(mesto):
     except:
         return "Počasí nedostupné"
 
+# funkce přepne světlý/tmavý režim
+def prepni_rezim():
+    aktualni = ctk.get_appearance_mode()
+    if aktualni == "Dark":
+        ctk.set_appearance_mode("Light")
+        tlacitko_rezim.configure(text="🌙 Tmavý režim")
+    else:
+        ctk.set_appearance_mode("Dark")
+        tlacitko_rezim.configure(text="☀️ Světlý režim")
+
 # vytvoření hlavního okna
+ctk.set_appearance_mode("Dark")
 okno_app = ctk.CTk()
 okno_app.title("Vyhledávač receptů")
 okno_app.geometry("600x700")
@@ -116,6 +127,8 @@ def po_kliknuti():
         return
     # zavolání API a výpis výsledků
     recepty = hledej_recepty(ingredience)
+    # seřazení receptů podle počtu chybějících ingrediencí - nejlepší shoda nahoře
+    recepty = sorted(recepty, key=lambda r: r['missedIngredientCount'])
     # smyčka projde každý recept a vypíše ho
     for recept in recepty:
         vysledky.insert("end", f"{recept['title']}\n")
@@ -130,7 +143,11 @@ def po_kliknuti():
 
 # tlačítko pro spuštění hledání
 tlacitko = ctk.CTkButton(okno_app, text="Hledat", command=po_kliknuti)
-tlacitko.pack(pady=10)
+tlacitko.pack(pady=5)
+
+# tlačítko pro přepnutí režimu
+tlacitko_rezim = ctk.CTkButton(okno_app, text="☀️ Světlý režim", command=prepni_rezim, width=150)
+tlacitko_rezim.pack(pady=5)
 
 # spuštění okna
 okno_app.mainloop()
