@@ -82,6 +82,13 @@ def prepni_rezim():
         ctk.set_appearance_mode("Dark")
         tlacitko_rezim.configure(text="☀️ Světlý režim")
 
+# funkce vymaže textové pole i výsledky
+def vymaz():
+    pole.delete(0, "end")
+    vysledky.configure(state="normal")
+    vysledky.delete("1.0", "end")
+    vysledky.configure(state="disabled")
+
 # vytvoření hlavního okna
 ctk.set_appearance_mode("Dark")
 okno_app = ctk.CTk()
@@ -144,6 +151,10 @@ def po_kliknuti():
 # tlačítko pro spuštění hledání
 tlacitko = ctk.CTkButton(okno_app, text="Hledat", command=po_kliknuti)
 tlacitko.pack(pady=5)
+
+# tlačítko pro vymazání pole a výsledků
+tlacitko_vymaz = ctk.CTkButton(okno_app, text="Vymazat", command=vymaz, fg_color="gray")
+tlacitko_vymaz.pack(pady=5)
 
 # tlačítko pro přepnutí režimu
 tlacitko_rezim = ctk.CTkButton(okno_app, text="☀️ Světlý režim", command=prepni_rezim, width=150)
