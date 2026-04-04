@@ -122,7 +122,7 @@ vysledky = ctk.CTkTextbox(okno_app, width=500, height=400, state="disabled")
 vysledky.pack(pady=10)
 
 # funkce se spustí po kliknutí na tlačítko
-def po_kliknuti():
+def po_kliknuti(event=None):
     ingredience = pole.get()
     # smazání předchozích výsledků vždy na začátku
     vysledky.configure(state="normal")
@@ -148,9 +148,8 @@ def po_kliknuti():
         vysledky.insert("end", "---\n")
     vysledky.configure(state="disabled")
 
-# tlačítko pro spuštění hledání
-tlacitko = ctk.CTkButton(okno_app, text="Hledat", command=po_kliknuti)
-tlacitko.pack(pady=5)
+# spuštění hledání po stisku Enter v textovém poli
+pole.bind("<Return>", po_kliknuti)
 
 # tlačítko pro vymazání pole a výsledků
 tlacitko_vymaz = ctk.CTkButton(okno_app, text="Vymazat", command=vymaz, fg_color="gray")
