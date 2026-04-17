@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import customtkinter as ctk
 import webbrowser
+import pyperclip
 
 # Načtení API klíče z .env souboru
 load_dotenv()
@@ -88,12 +89,41 @@ def vymaz():
     vysledky.configure(state="normal")
     vysledky.delete("1.0", "end")
     vysledky.configure(state="disabled")
+    # smazání uložených odkazů
+    odkazy.clear()
+    aktualizuj_tlacitka_odkazu()
+
+# funkce zkopíruje odkaz do schránky
+def zkopiruj_odkaz(odkaz):
+    pyperclip.copy(odkaz)
+
+# funkce zobrazí nebo skryje tlačítka odkazů
+def aktualizuj_tlacitka_odkazu():
+    # smazání starých tlačítek
+    for tlacitko in tlacitka_odkazu:
+        tlacitko.destroy()
+    tlacitka_odkazu.clear()
+    # vytvoření nových tlačítek pro každý odkaz
+    for i, odkaz in enumerate(odkazy):
+        t = ctk.CTkButton(
+            ramec_odkazu,
+            text=f"📋 Kopírovat odkaz {i + 1}",
+            command=lambda o=odkaz: zkopiruj_odkaz(o),
+            width=200,
+            height=25
+        )
+        t.pack(pady=2)
+        tlacitka_odkazu.append(t)
+
+# seznam uložených odkazů a tlačítek
+odkazy = []
+tlacitka_odkazu = []
 
 # vytvoření hlavního okna
 ctk.set_appearance_mode("Dark")
 okno_app = ctk.CTk()
 okno_app.title("Vyhledávač receptů")
-okno_app.geometry("600x700")
+okno_app.geometry("600x800")
 
 # textové pole pro zadání ingrediencí
 pole = ctk.CTkEntry(okno_app, width=400, placeholder_text="Zadej ingredience (odděl čárkou)")
@@ -111,22 +141,28 @@ slider = ctk.CTkSlider(okno_app, from_=1, to=15, number_of_steps=14)
 slider.set(5)
 slider.pack(pady=5)
 
-# funkce aktualizuje label při pohybu sliderem
+# funkce aktualizuje label při pohybu sliderem - tooltip
 def aktualizuj_label(hodnota):
-    pocet_label.configure(text=f"Počet receptů: {int(hodnota)}")
+    pocet_label.configure(text=f"Počet receptů: {int(hodnota)} (posuň slider pro změnu)")
 
 slider.configure(command=aktualizuj_label)
 
 # textová oblast pro zobrazení výsledků - nelze editovat
-vysledky = ctk.CTkTextbox(okno_app, width=500, height=400, state="disabled")
+vysledky = ctk.CTkTextbox(okno_app, width=500, height=300, state="disabled")
 vysledky.pack(pady=10)
 
-# funkce se spustí po kliknutí na tlačítko
+# rámeček pro tlačítka odkazů
+ramec_odkazu = ctk.CTkFrame(okno_app, fg_color="transparent")
+ramec_odkazu.pack()
+
+# funkce se spustí po stisku Enter
 def po_kliknuti(event=None):
     ingredience = pole.get()
-    # smazání předchozích výsledků vždy na začátku
+    # smazání předchozích výsledků a odkazů vždy na začátku
     vysledky.configure(state="normal")
     vysledky.delete("1.0", "end")
+    odkazy.clear()
+    aktualizuj_tlacitka_odkazu()
     # kontrola jestli uživatel zadal ingredience
     if not ingredience:
         vysledky.insert("end", "Zadej prosím ingredience!\n")
@@ -137,16 +173,19 @@ def po_kliknuti(event=None):
     # seřazení receptů podle počtu chybějících ingrediencí - nejlepší shoda nahoře
     recepty = sorted(recepty, key=lambda r: r['missedIngredientCount'])
     # smyčka projde každý recept a vypíše ho
-    for recept in recepty:
+    for i, recept in enumerate(recepty):
         vysledky.insert("end", f"{recept['title']}\n")
         vysledky.insert("end", f"Použité ingredience: {recept['usedIngredientCount']}\n")
         vysledky.insert("end", f"Chybějící ingredience: {recept['missedIngredientCount']}\n")
-        # získání a zobrazení odkazu na recept
+        # získání odkazu a uložení do seznamu
         odkaz = ziskej_odkaz(recept['id'])
         if odkaz:
-            vysledky.insert("end", f"Odkaz: {odkaz}\n")
+            vysledky.insert("end", f"Odkaz {i + 1}: viz tlačítko níže\n")
+            odkazy.append(odkaz)
         vysledky.insert("end", "---\n")
     vysledky.configure(state="disabled")
+    # zobrazení tlačítek pro kopírování odkazů
+    aktualizuj_tlacitka_odkazu()
 
 # spuštění hledání po stisku Enter v textovém poli
 pole.bind("<Return>", po_kliknuti)
