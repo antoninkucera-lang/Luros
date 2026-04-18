@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import customtkinter as ctk
 import webbrowser
 import pyperclip
+from datetime import datetime
 
 # Načtení API klíče z .env souboru
 load_dotenv()
@@ -115,6 +116,13 @@ def aktualizuj_tlacitka_odkazu():
         t.pack(pady=2)
         tlacitka_odkazu.append(t)
 
+# funkce aktualizuje čas každou sekundu
+def aktualizuj_cas():
+    cas = datetime.now().strftime("%H:%M:%S")
+    cas_label.configure(text=f"🕐 {cas}")
+    # zavolá samu sebe znovu za 1000ms
+    okno_app.after(1000, aktualizuj_cas)
+
 # seznam uložených odkazů a tlačítek
 odkazy = []
 tlacitka_odkazu = []
@@ -132,6 +140,13 @@ pole.pack(pady=20)
 # label pro zobrazení počasí
 pocasi_label = ctk.CTkLabel(okno_app, text=ziskej_pocasi("Trinec"))
 pocasi_label.pack(pady=5)
+
+# label pro zobrazení aktuálního času
+cas_label = ctk.CTkLabel(okno_app, text="")
+cas_label.pack(pady=2)
+
+# spuštění aktualizace času
+aktualizuj_cas()
 
 # slider pro nastavení počtu receptů
 pocet_label = ctk.CTkLabel(okno_app, text="Počet receptů: 5")
