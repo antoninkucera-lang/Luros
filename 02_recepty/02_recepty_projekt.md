@@ -45,5 +45,9 @@ Aplikace která umožňuje vyhledávat recepty podle ingrediencí které máš d
 5. Pomocí slideru nastav kolik receptů chceš zobrazit
 6. Stiskni **Enter** pro spuštění hledání
 7. Výsledky se zobrazí seřazené podle nejlepší shody, každý recept obsahuje odkaz
+<<<<<<< Updated upstream
 8. Tlačítko **Vymazat** smaže pole i výsledky
 9. Pomocí tlačítka dole můžeš přepnout světlý nebo tmavý režim
+=======
+8. Pomocí tlačítka dole můžeš přepnout světlý nebo tmavý režim
+>>>>>>> Stashed changes
