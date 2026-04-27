@@ -50,4 +50,3 @@ Aplikace která umožňuje vyhledávat recepty podle ingrediencí které máš d
 9. Pomocí tlačítka dole můžeš přepnout světlý nebo tmavý režim
 =======
 8. Pomocí tlačítka dole můžeš přepnout světlý nebo tmavý režim
->>>>>>> Stashed changes
