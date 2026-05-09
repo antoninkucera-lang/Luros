@@ -6,4 +6,4 @@ Hry, utility a aplikace psané v Pythonu.
 |---|---------------|---------------|-----|
 | 01 | Tetris | 05.03.2026 | Hra Tetris s padajícími bloky v Pygame |
 | 02 | Vyhledávač receptů | 09.03.2026 | Aplikace pro hledání receptů podle ingrediencí přes API |
-| 03 | Ai chatbot| 20.04.2026 | AI chatbot pomocí groq |
+| 03 | dashboard| 7.5.2026 | dashboard s poznamkami |
