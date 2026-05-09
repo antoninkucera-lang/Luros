@@ -54,3 +54,31 @@ def nacti_poznamky():
             return soubor.read()
     except:
         return ""
+    
+# funkce aktualizuje čas každou sekundu
+def aktualizuj_cas():
+    cas = datetime.now().strftime("%H:%M:%S")
+    cas_label.configure(text=f"🕐 {cas}")
+    # zavolá samu sebe znovu za 1000ms
+    okno_app.after(1000, aktualizuj_cas)
+
+# vytvoření hlavního okna
+ctk.set_appearance_mode("Dark")
+okno_app = ctk.CTk()
+okno_app.title("🗂 Dashboard")
+okno_app.geometry("900x600")
+
+# hlavní rámeček rozdělený na levou a pravou část
+levy_ramec = ctk.CTkFrame(okno_app)
+levy_ramec.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+
+pravy_ramec = ctk.CTkFrame(okno_app)
+pravy_ramec.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+
+# levá část - label pro čas
+cas_label = ctk.CTkLabel(levy_ramec, text="", font=("Arial", 24))
+cas_label.pack(pady=20)
+
+# label pro počasí
+pocasi_label = ctk.CTkLabel(levy_ramec, text=ziskej_pocasi(), font=("Arial", 14))
+pocasi_label.pack(pady=10)
