@@ -82,3 +82,38 @@ cas_label.pack(pady=20)
 # label pro počasí
 pocasi_label = ctk.CTkLabel(levy_ramec, text=ziskej_pocasi(), font=("Arial", 14))
 pocasi_label.pack(pady=10)
+
+# poznámkový blok
+poznamky_label = ctk.CTkLabel(levy_ramec, text="📝 Poznámky")
+poznamky_label.pack(pady=5)
+
+poznamky = ctk.CTkTextbox(levy_ramec, width=380, height=250)
+poznamky.pack(pady=5)
+
+# načtení uložených poznámek při spuštění
+poznamky.insert("end", nacti_poznamky())
+
+# tlačítka pro poznámky
+tlacitko_uloz = ctk.CTkButton(levy_ramec, text="💾 Uložit", command=lambda: uloz_poznamky(poznamky.get("1.0", "end")))
+tlacitko_uloz.pack(side="left", padx=10, pady=5)
+
+tlacitko_smaz = ctk.CTkButton(levy_ramec, text="🗑 Smazat", fg_color="gray", command=lambda: poznamky.delete("1.0", "end"))
+tlacitko_smaz.pack(side="left", padx=10, pady=5)
+
+# pravá část - zprávy
+zpravy_label = ctk.CTkLabel(pravy_ramec, text="📰 České zprávy", font=("Arial", 16))
+zpravy_label.pack(pady=10)
+
+zpravy_box = ctk.CTkTextbox(pravy_ramec, width=380, height=450, state="normal")
+zpravy_box.pack(pady=5)
+
+# načtení a zobrazení zpráv
+for zprava in ziskej_zpravy():
+    zpravy_box.insert("end", f"• {zprava}\n\n")
+zpravy_box.configure(state="disabled")
+
+# spuštění aktualizace času
+aktualizuj_cas()
+
+# spuštění okna
+okno_app.mainloop()
