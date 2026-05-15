@@ -115,5 +115,19 @@ zpravy_box.configure(state="disabled")
 # spuštění aktualizace času
 aktualizuj_cas()
 
+# funkce přepne světlý/tmavý režim
+def prepni_rezim():
+    aktualni = ctk.get_appearance_mode()
+    if aktualni == "Dark":
+        ctk.set_appearance_mode("Light")
+        tlacitko_rezim.configure(text="🌙 Tmavý režim")
+    else:
+        ctk.set_appearance_mode("Dark")
+        tlacitko_rezim.configure(text="☀️ Světlý režim")
+
+# tlačítko pro přepnutí režimu
+tlacitko_rezim = ctk.CTkButton(okno_app, text="☀️ Světlý režim", command=prepni_rezim, width=150)
+tlacitko_rezim.pack(pady=5)
+
 # spuštění okna
 okno_app.mainloop()
